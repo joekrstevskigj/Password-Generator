@@ -88,24 +88,34 @@ var upperCasedCharacters = [
   'Z'
 ];
 
+//an array that will hold all of the types that user choose
+var choosenTypes = [];
+//holds the user answer of how long is the password
+var passLength = 0; 
+
 //get user input for types of charachter to be included, 
 //return true if user didn't choose at least one selection, false otherwise.
-function getUserInputForTypes()
-{
+function getUserInputForTypes() {
   const charTypes = [];
+  choosenTypes = [];
 
-  charTypes.push(confirm("Would you like to include Lowecase characters?"));
-  charTypes.push(confirm("Would you like to include Uppercase characters?"));
-  charTypes.push(confirm("Would you like to include Numeric characters?"));
-  charTypes.push(confirm("Would you like to include Special characters?"));
+  getUserAnwser("Would you like to include Lowecase characters?", lowerCasedCharacters);
+  getUserAnwser("Would you like to include Uppercase characters?", upperCasedCharacters);
+  getUserAnwser("Would you like to include Numeric characters?", numericCharacters);
+  getUserAnwser("Would you like to include Special characters?", specialCharacters);
+
+  function getUserAnwser(question, typeArray) {
+    charTypes.push(confirm(question));
+    if (charTypes[charTypes.length - 1]) {
+      choosenTypes.push(typeArray);
+    }
+  }
 
   return charTypes.every(e => e === false);
 }
 
-function getUserTypes()
-{
-  if(getUserInputForTypes() === true)
-  {
+function getUserTypes() {
+  if (getUserInputForTypes() === true) {
     //user didn't choose anything, let's start the process again.
     alert("You must choose at least one type!");
     getUserTypes();
@@ -114,23 +124,39 @@ function getUserTypes()
 
 // Function to prompt user for password options
 function getPasswordOptions() {
-  let passLength = 0;
+  passLength = 0;
+
+  //repeat the prompt until user gives
   while (isNaN(passLength) || passLength < 8 || passLength > 128) {
-    passLength = parseInt(prompt("How many characters would you like your password to contain?"));
+    passLength = parseInt(prompt("How many characters would you like your password to contain?(Type a number between "));
   }
 
   getUserTypes();
-  alert("Great!");
 }
+
 
 // Function for getting a random element from an array
 function getRandom(arr) {
-
+  return arr[Math.floor(Math.random() * arr.length)];
 }
 
 // Function to generate password with user input
 function generatePassword() {
   getPasswordOptions();
+
+  //ok we got the options, now generate the password  
+  var retVal = "";
+  var currCharType;
+  passLength -= 1;//array use index
+  for(var i=0;i<=passLength;i++)
+  {
+    //first, get at random a type of char based on user choice
+    currCharType = getRandom(choosenTypes);
+    //now based on that type, get a charachter at random
+    retVal += getRandom(currCharType);
+  }
+
+  return retVal;
 }
 
 // Get references to the #generate element
