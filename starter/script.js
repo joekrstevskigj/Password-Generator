@@ -88,17 +88,44 @@ var upperCasedCharacters = [
   'Z'
 ];
 
+//get user input for types of charachter to be included, 
+//return true if user didn't choose at least one selection, false otherwise.
+function getUserInputForTypes()
+{
+  const charTypes = [];
+
+  charTypes.push(confirm("Would you like to include Lowecase characters?"));
+  charTypes.push(confirm("Would you like to include Uppercase characters?"));
+  charTypes.push(confirm("Would you like to include Numeric characters?"));
+  charTypes.push(confirm("Would you like to include Special characters?"));
+
+  return charTypes.every(e => e === false);
+}
+
+function getUserTypes()
+{
+  if(getUserInputForTypes() === true)
+  {
+    //user didn't choose anything, let's start the process again.
+    alert("You must choose at least one type!");
+    getUserTypes();
+  }
+}
+
 // Function to prompt user for password options
 function getPasswordOptions() {
   let passLength = 0;
   while (isNaN(passLength) || passLength < 8 || passLength > 128) {
     passLength = parseInt(prompt("How many characters would you like your password to contain?"));
   }
+
+  getUserTypes();
+  alert("Great!");
 }
 
 // Function for getting a random element from an array
 function getRandom(arr) {
-  
+
 }
 
 // Function to generate password with user input
