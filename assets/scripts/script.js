@@ -91,7 +91,7 @@ var upperCasedCharacters = [
 //an array that will hold all of the types that user choose
 var choosenTypes = [];
 //holds the user answer of how long is the password
-var passLength = 0; 
+var passLength = 0;
 
 //get user input for types of charachter to be included, 
 //return true if user didn't choose at least one selection, false otherwise.
@@ -126,9 +126,9 @@ function getUserTypes() {
 function getPasswordOptions() {
   passLength = 0;
 
-  //repeat the prompt until user gives
+  //repeat the prompt until user gives correct input
   while (isNaN(passLength) || passLength < 8 || passLength > 128) {
-    passLength = parseInt(prompt("How many characters would you like your password to contain?(Type a number between "));
+    passLength = parseInt(prompt("How many characters would you like your password to contain?(Type a number between 8 and 128!"));
   }
 
   getUserTypes();
@@ -147,9 +147,8 @@ function generatePassword() {
   //ok we got the options, now generate the password  
   var retVal = "";
   var currCharType;
-  passLength -= 1;//array use index
-  for(var i=0;i<=passLength;i++)
-  {
+  passLength -= 1;//array use index, so reduce the use choice by one
+  for (var i = 0; i <= passLength; i++) {
     //first, get at random a type of char based on user choice
     currCharType = getRandom(choosenTypes);
     //now based on that type, get a charachter at random
